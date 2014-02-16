@@ -15,9 +15,9 @@
  limitations under the License.
  -->
 <resources>
-  <style name="Theme.ZXingCaptureActivity"
-         parent="android:Theme.Light">
+  <style name="Theme.ZXingCaptureActivity" parent="android:Theme.Holo">
     <item name="android:windowFullscreen">true</item>
     <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowActionBarOverlay">true</item>
   </style>
 </resources>

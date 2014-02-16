@@ -14,7 +14,6 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.+'
     compile 'com.google.zxing:core:2.3.0'
 }
 
