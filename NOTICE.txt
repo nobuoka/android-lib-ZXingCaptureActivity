@@ -1,0 +1,10 @@
+--------------------------------------------------------------------------------
+NOTICES for android-lib-ZXingCaptureActivity
+--------------------------------------------------------------------------------
+
+android-lib-ZXingCaptureActivity is derived from ZXing project ( https://github.com/zxing/zxing ).
+
+  Copyright © 2008 ZXing authors.
+  Copyright © 2014 NOBUOKA Yu.
+
+Licensed under the Apache License, Version 2.0.
