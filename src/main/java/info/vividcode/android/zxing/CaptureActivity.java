@@ -87,6 +87,34 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   }
 
   /**
+   * Set barcode formats to scan for onto {@code Intent}.
+   * This setting precedes to setting by {@code #setDecodeFormatsToIntent} method.
+   * In case that {@code formats} is empty collection, this method do nothing.
+   * @param intent Target intent.
+   * @param formats Barcode formats to scan for.
+   */
+  public static void setDecodeFormatsToIntent(Intent intent, Collection<BarcodeFormat> formats) {
+    StringBuilder sb = new StringBuilder();
+    for (BarcodeFormat f : formats) {
+      if (sb.length() != 0) sb.append(",");
+      sb.append(f.name());
+    }
+    String formatsStr = sb.toString();
+    if (formatsStr.length() != 0) intent.putExtra(Intents.Scan.FORMATS, formatsStr);
+  }
+
+  /**
+   * Set barcode formats to scan for onto {@code Intent}.
+   * @param intent Target intent.
+   * @param scanMode Mode which specify set of barcode formats to scan for. Use one of
+   *                 {@link Intents.Scan#PRODUCT_MODE}, {@link Intents.Scan#ONE_D_MODE},
+   *                 {@link Intents.Scan#QR_CODE_MODE}, {@link Intents.Scan#DATA_MATRIX_MODE}.
+   */
+  public static void setDecodeModeToIntent(Intent intent, String scanMode) {
+    intent.putExtra(Intents.Scan.MODE, scanMode);
+  }
+
+  /**
    * Set desired duration for which to pause after a successful scan to {@code Intent}.
    * @param intent It must not be {@code null}.
    * @param duration Desired duration in milliseconds.
