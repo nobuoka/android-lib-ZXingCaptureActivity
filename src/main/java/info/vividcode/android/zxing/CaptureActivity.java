@@ -142,14 +142,14 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         decodeHints = DecodeHintManager.parseDecodeHints(intent);
 
         if (intent.hasExtra(Intents.Scan.WIDTH) && intent.hasExtra(Intents.Scan.HEIGHT)) {
-          int width = CaptureActivityIntents.getWidthOfScanningRectangleInPxFromIntentOrZero(intent);
-          int height = CaptureActivityIntents.getHeightOfScanningRectangleInPxFromIntentOrZero(intent);
+          int width = CaptureActivityIntents.getWidthOfScanningRectangleInPxOrZero(intent);
+          int height = CaptureActivityIntents.getHeightOfScanningRectangleInPxOrZero(intent);
           if (width > 0 && height > 0) {
             cameraManager.setManualFramingRect(width, height);
           }
         }
         
-        String customPromptMessage = CaptureActivityIntents.getPromptMessageFromIntentOrNull(intent);
+        String customPromptMessage = CaptureActivityIntents.getPromptMessageOrNull(intent);
         if (customPromptMessage != null) {
           statusView.setText(customPromptMessage);
         }
@@ -284,7 +284,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       viewfinderView.drawResultBitmap(barcode);
     }
 
-    long resultDurationMS = CaptureActivityIntents.getResultDisplayDurationInMsFromIntentOrDefaultValue(getIntent());
+    long resultDurationMS = CaptureActivityIntents.getResultDisplayDurationInMsOrDefaultValue(getIntent());
     if (resultDurationMS > 0) {
       String rawResultString = String.valueOf(rawResult);
       if (rawResultString.length() > 32) {

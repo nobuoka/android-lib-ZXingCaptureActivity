@@ -28,12 +28,12 @@ public class CaptureActivityIntents {
 
   /**
    * Set barcode formats to scan for onto {@code Intent}.
-   * This setting precedes to setting by {@code #setDecodeFormatsToIntent} method.
+   * This setting precedes to setting by {@code #setDecodeFormats} method.
    * In case that {@code formats} is empty collection, this method do nothing.
    * @param intent Target intent.
    * @param formats Barcode formats to scan for.
    */
-  public static void setDecodeFormatsToIntent(Intent intent, Collection<BarcodeFormat> formats) {
+  public static void setDecodeFormats(Intent intent, Collection<BarcodeFormat> formats) {
     StringBuilder sb = new StringBuilder();
     for (BarcodeFormat f : formats) {
       if (sb.length() != 0) sb.append(",");
@@ -47,26 +47,26 @@ public class CaptureActivityIntents {
    * Set barcode formats to scan for onto {@code Intent}.
    * @param intent Target intent.
    * @param scanMode Mode which specify set of barcode formats to scan for. Use one of
-   *                 {@link info.vividcode.android.zxing.Intents.Scan#PRODUCT_MODE}, {@link info.vividcode.android.zxing.Intents.Scan#ONE_D_MODE},
-   *                 {@link info.vividcode.android.zxing.Intents.Scan#QR_CODE_MODE}, {@link info.vividcode.android.zxing.Intents.Scan#DATA_MATRIX_MODE}.
+   *                 {@link Intents.Scan#PRODUCT_MODE}, {@link Intents.Scan#ONE_D_MODE},
+   *                 {@link Intents.Scan#QR_CODE_MODE}, {@link Intents.Scan#DATA_MATRIX_MODE}.
    */
-  public static void setDecodeModeToIntent(Intent intent, String scanMode) {
+  public static void setDecodeMode(Intent intent, String scanMode) {
     intent.putExtra(Intents.Scan.MODE, scanMode);
   }
 
   /**
-   * Set decode hint to intent to enable {@link com.google.zxing.DecodeHintType#PURE_BARCODE} feature.
+   * Set decode hint to intent to enable {@link DecodeHintType#PURE_BARCODE} feature.
    * @param intent Target intent.
    */
-  public static void setDecodeHintPureBarcodeEnabledToIntent(Intent intent) {
+  public static void setDecodeHintPureBarcodeEnabled(Intent intent) {
     intent.putExtra(DecodeHintType.PURE_BARCODE.name(), true);
   }
 
   /**
-   * Set decode hint to intent to enable {@link com.google.zxing.DecodeHintType#TRY_HARDER} feature.
+   * Set decode hint to intent to enable {@link DecodeHintType#TRY_HARDER} feature.
    * @param intent Target intent.
    */
-  public static void setDecodeHintTryHarderEnabledToIntent(Intent intent) {
+  public static void setDecodeHintTryHarderEnabled(Intent intent) {
     intent.putExtra(DecodeHintType.TRY_HARDER.name(), true);
   }
 
@@ -75,31 +75,31 @@ public class CaptureActivityIntents {
    * @param intent Target intent.
    * @param lengths allowed lengths.
    */
-  public static void setDecodeHintAllowedLengthsToIntent(Intent intent, int[] lengths) {
+  public static void setDecodeHintAllowedLengths(Intent intent, int[] lengths) {
     intent.putExtra(DecodeHintType.ALLOWED_LENGTHS.name(), lengths);
   }
 
   /**
-   * Set decode hint to intent to enable {@link com.google.zxing.DecodeHintType#ASSUME_CODE_39_CHECK_DIGIT} feature.
+   * Set decode hint to intent to enable {@link DecodeHintType#ASSUME_CODE_39_CHECK_DIGIT} feature.
    * @param intent Target intent.
    */
-  public static void setDecodeHintAssumeCode39CheckDigitEnabledToIntent(Intent intent) {
+  public static void setDecodeHintAssumeCode39CheckDigitEnabled(Intent intent) {
     intent.putExtra(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT.name(), true);
   }
 
   /**
-   * Set decode hint to intent to enable {@link com.google.zxing.DecodeHintType#ASSUME_GS1} feature.
+   * Set decode hint to intent to enable {@link DecodeHintType#ASSUME_GS1} feature.
    * @param intent Target intent.
    */
-  public static void setDecodeHintAssumeGs1EnabledToIntent(Intent intent) {
+  public static void setDecodeHintAssumeGs1Enabled(Intent intent) {
     intent.putExtra(DecodeHintType.ASSUME_GS1.name(), true);
   }
 
   /**
-   * Set decode hint to intent to enable {@link com.google.zxing.DecodeHintType#RETURN_CODABAR_START_END} feature.
+   * Set decode hint to intent to enable {@link DecodeHintType#RETURN_CODABAR_START_END} feature.
    * @param intent Target intent.
    */
-  public static void setDecodeHintReturnCodabarStartEndEnabledToIntent(Intent intent) {
+  public static void setDecodeHintReturnCodabarStartEndEnabled(Intent intent) {
     intent.putExtra(DecodeHintType.RETURN_CODABAR_START_END.name(), true);
   }
 
@@ -108,7 +108,7 @@ public class CaptureActivityIntents {
    * @param intent Target intent.
    * @param message Prompt message displayed on activity.
    */
-  public static void setPromptMessageToIntent(Intent intent, String message) {
+  public static void setPromptMessage(Intent intent, String message) {
     intent.putExtra(Intents.Scan.PROMPT_MESSAGE, message);
   }
 
@@ -116,7 +116,7 @@ public class CaptureActivityIntents {
    * Get prompt message from {@code Intent}.
    * @param intent Target intent. It can be {@code null}.
    */
-  public static String getPromptMessageFromIntentOrNull(Intent intent) {
+  public static String getPromptMessageOrNull(Intent intent) {
     if (intent == null) return null;
     return intent.getStringExtra(Intents.Scan.PROMPT_MESSAGE);
   }
@@ -128,7 +128,7 @@ public class CaptureActivityIntents {
    * @param width Width of scanning rectangle in pixels.
    * @param height Height of scanning rectangle in pixels.
    */
-  public static void setSizeOfScanningRectangleInPxToIntent(Intent intent, int width, int height) {
+  public static void setSizeOfScanningRectangleInPx(Intent intent, int width, int height) {
     intent.putExtra(Intents.Scan.WIDTH, width);
     intent.putExtra(Intents.Scan.HEIGHT, height);
   }
@@ -138,7 +138,7 @@ public class CaptureActivityIntents {
    * @param intent Target intent. It can be {@code null}.
    * @return Width of scanning rectangle in pixels if specified, or zero otherwise.
    */
-  public static int getWidthOfScanningRectangleInPxFromIntentOrZero(Intent intent) {
+  public static int getWidthOfScanningRectangleInPxOrZero(Intent intent) {
     if (intent == null) return 0;
     return intent.getIntExtra(Intents.Scan.WIDTH, 0);
   }
@@ -148,7 +148,7 @@ public class CaptureActivityIntents {
    * @param intent Target intent. It can be {@code null}.
    * @return Height of scanning rectangle in pixels if specified, or zero otherwise.
    */
-  public static int getHeightOfScanningRectangleInPxFromIntentOrZero(Intent intent) {
+  public static int getHeightOfScanningRectangleInPxOrZero(Intent intent) {
     if (intent == null) return 0;
     return intent.getIntExtra(Intents.Scan.HEIGHT, 0);
   }
@@ -158,7 +158,7 @@ public class CaptureActivityIntents {
    * @param intent Target intent.
    * @param duration Desired duration in milliseconds.
    */
-  public static void setResultDisplayDurationInMsToIntent(Intent intent, long duration) {
+  public static void setResultDisplayDurationInMs(Intent intent, long duration) {
     intent.putExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS, duration);
   }
 
@@ -167,7 +167,7 @@ public class CaptureActivityIntents {
    * @param intent Target intent.
    * @return Desired duration in milliseconds retrieved from {@code intent} or default value.
    */
-  public static long getResultDisplayDurationInMsFromIntentOrDefaultValue(Intent intent) {
+  public static long getResultDisplayDurationInMsOrDefaultValue(Intent intent) {
     if (intent == null) return DEFAULT_INTENT_RESULT_DURATION_MS;
     return intent.getLongExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS,
         DEFAULT_INTENT_RESULT_DURATION_MS);
