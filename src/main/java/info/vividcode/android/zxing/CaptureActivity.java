@@ -86,6 +86,26 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     return cameraManager;
   }
 
+  /**
+   * Set desired duration for which to pause after a successful scan to {@code Intent}.
+   * @param intent It must not be {@code null}.
+   * @param duration Desired duration in milliseconds.
+   */
+  public static void setResultDisplayDurationInMsToIntent(Intent intent, long duration) {
+    intent.putExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS, duration);
+  }
+
+  /**
+   * Get desired duration for which to pause after a successful scan from {@code Intent}.
+   * @param intent It can be {@code null}.
+   * @return Desired duration in milliseconds retrieved from {@code intent} or default value.
+   */
+  public static long getResultDisplayDurationInMsFromIntentOrDefaultValue(Intent intent) {
+    if (intent == null) return DEFAULT_INTENT_RESULT_DURATION_MS;
+    return intent.getLongExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS,
+        DEFAULT_INTENT_RESULT_DURATION_MS);
+  }
+
   @Override
   protected void onCreate(Bundle icicle) {
     super.onCreate(icicle);
@@ -286,14 +306,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       viewfinderView.drawResultBitmap(barcode);
     }
 
-    long resultDurationMS;
-    if (getIntent() == null) {
-      resultDurationMS = DEFAULT_INTENT_RESULT_DURATION_MS;
-    } else {
-      resultDurationMS = getIntent().getLongExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS,
-                                                  DEFAULT_INTENT_RESULT_DURATION_MS);
-    }
-
+    long resultDurationMS = getResultDisplayDurationInMsFromIntentOrDefaultValue(getIntent());
     if (resultDurationMS > 0) {
       String rawResultString = String.valueOf(rawResult);
       if (rawResultString.length() > 32) {
