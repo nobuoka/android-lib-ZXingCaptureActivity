@@ -215,7 +215,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   /**
    * Set desired duration for which to pause after a successful scan to {@code Intent}.
-   * @param intent It must not be {@code null}.
+   * @param intent Target intent.
    * @param duration Desired duration in milliseconds.
    */
   public static void setResultDisplayDurationInMsToIntent(Intent intent, long duration) {
@@ -224,7 +224,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   /**
    * Get desired duration for which to pause after a successful scan from {@code Intent}.
-   * @param intent It can be {@code null}.
+   * @param intent Target intent.
    * @return Desired duration in milliseconds retrieved from {@code intent} or default value.
    */
   public static long getResultDisplayDurationInMsFromIntentOrDefaultValue(Intent intent) {
