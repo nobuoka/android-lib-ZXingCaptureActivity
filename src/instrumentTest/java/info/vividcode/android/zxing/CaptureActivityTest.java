@@ -144,6 +144,33 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
     }
   }
 
+  public void test_setSizeOfScanningRectangleInPxToIntent() {
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setSizeOfScanningRectangleInPxToIntent(intent, 5, 10);
+      assertEquals(5, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(10, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
+    }
+  }
+
+  public void test_getWidthAndHeightOfScanningRectangleInPxToIntent() {
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setSizeOfScanningRectangleInPxToIntent(intent, 5, 10);
+      assertEquals(5, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(10, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
+    }
+    { // In case that size is not specified, it returns zero.
+      Intent intent = new Intent("DUMMY_ACTION");
+      assertEquals(0, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(0, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
+    }
+    { // In case that argument is `null`, it returns zero.
+      assertEquals(0, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(null));
+      assertEquals(0, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(null));
+    }
+  }
+
   public void test_setResultDisplayDurationInMsFromIntent() {
     {
       Intent intent = new Intent("DUMMY_ACTION");

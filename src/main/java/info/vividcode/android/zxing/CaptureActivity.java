@@ -182,6 +182,38 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   }
 
   /**
+   * Set optional parameters to specify the width and height of the scanning rectangle in pixels
+   * to {@code Intent}.
+   * @param intent Target intent.
+   * @param width Width of scanning rectangle in pixels.
+   * @param height Height of scanning rectangle in pixels.
+   */
+  public static void setSizeOfScanningRectangleInPxToIntent(Intent intent, int width, int height) {
+    intent.putExtra(Intents.Scan.WIDTH, width);
+    intent.putExtra(Intents.Scan.HEIGHT, height);
+  }
+
+  /**
+   * Get the width of the scanning rectangle in pixels from {@code Intent}.
+   * @param intent Target intent. It can be {@code null}.
+   * @return Width of scanning rectangle in pixels if specified, or zero otherwise.
+   */
+  public static int getWidthOfScanningRectangleInPxFromIntentOrZero(Intent intent) {
+    if (intent == null) return 0;
+    return intent.getIntExtra(Intents.Scan.WIDTH, 0);
+  }
+
+  /**
+   * Get the height of the scanning rectangle in pixels from {@code Intent}.
+   * @param intent Target intent. It can be {@code null}.
+   * @return Height of scanning rectangle in pixels if specified, or zero otherwise.
+   */
+  public static int getHeightOfScanningRectangleInPxFromIntentOrZero(Intent intent) {
+    if (intent == null) return 0;
+    return intent.getIntExtra(Intents.Scan.HEIGHT, 0);
+  }
+
+  /**
    * Set desired duration for which to pause after a successful scan to {@code Intent}.
    * @param intent It must not be {@code null}.
    * @param duration Desired duration in milliseconds.
@@ -259,8 +291,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         decodeHints = DecodeHintManager.parseDecodeHints(intent);
 
         if (intent.hasExtra(Intents.Scan.WIDTH) && intent.hasExtra(Intents.Scan.HEIGHT)) {
-          int width = intent.getIntExtra(Intents.Scan.WIDTH, 0);
-          int height = intent.getIntExtra(Intents.Scan.HEIGHT, 0);
+          int width = getWidthOfScanningRectangleInPxFromIntentOrZero(intent);
+          int height = getHeightOfScanningRectangleInPxFromIntentOrZero(intent);
           if (width > 0 && height > 0) {
             cameraManager.setManualFramingRect(width, height);
           }
