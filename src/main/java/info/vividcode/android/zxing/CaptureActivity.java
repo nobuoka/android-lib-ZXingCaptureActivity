@@ -62,8 +62,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   private static final String TAG = CaptureActivity.class.getSimpleName();
 
-  private static final long DEFAULT_INTENT_RESULT_DURATION_MS = 1500L;
-
   private CameraManager cameraManager;
   private CaptureActivityHandler handler;
   private ViewfinderView viewfinderView;
@@ -95,7 +93,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     setContentView(R.layout.capture);
 
     hasSurface = false;
-    ambientLightManager = new AmbientLightManager(this);
+    ambientLightManager = new AmbientLightManager(this,
+        CaptureActivityIntents.getFrontLightAutoMode(getIntent()));
   }
 
   @Override
@@ -144,19 +143,19 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         decodeHints = DecodeHintManager.parseDecodeHints(intent);
 
         if (intent.hasExtra(Intents.Scan.WIDTH) && intent.hasExtra(Intents.Scan.HEIGHT)) {
-          int width = intent.getIntExtra(Intents.Scan.WIDTH, 0);
-          int height = intent.getIntExtra(Intents.Scan.HEIGHT, 0);
+          int width = CaptureActivityIntents.getWidthOfScanningRectangleInPxOrZero(intent);
+          int height = CaptureActivityIntents.getHeightOfScanningRectangleInPxOrZero(intent);
           if (width > 0 && height > 0) {
             cameraManager.setManualFramingRect(width, height);
           }
         }
         
-        String customPromptMessage = intent.getStringExtra(Intents.Scan.PROMPT_MESSAGE);
+        String customPromptMessage = CaptureActivityIntents.getPromptMessageOrNull(intent);
         if (customPromptMessage != null) {
           statusView.setText(customPromptMessage);
         }
 
-        characterSet = intent.getStringExtra(Intents.Scan.CHARACTER_SET);
+        characterSet = CaptureActivityIntents.getDecodeHintCharacterSetOrNull(intent);
 
     }
   }
@@ -286,14 +285,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       viewfinderView.drawResultBitmap(barcode);
     }
 
-    long resultDurationMS;
-    if (getIntent() == null) {
-      resultDurationMS = DEFAULT_INTENT_RESULT_DURATION_MS;
-    } else {
-      resultDurationMS = getIntent().getLongExtra(Intents.Scan.RESULT_DISPLAY_DURATION_MS,
-                                                  DEFAULT_INTENT_RESULT_DURATION_MS);
-    }
-
+    long resultDurationMS = CaptureActivityIntents.getResultDisplayDurationInMsOrDefaultValue(getIntent());
     if (resultDurationMS > 0) {
       String rawResultString = String.valueOf(rawResult);
       if (rawResultString.length() > 32) {

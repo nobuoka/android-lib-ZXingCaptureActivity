@@ -32,6 +32,7 @@ import info.vividcode.android.zxing.camera.CameraManager;
  *
  * @author Sean Owen
  * @author Nikolaus Huber
+ * @author NOBUOKA Yu
  */
 final class AmbientLightManager implements SensorEventListener {
 
@@ -41,18 +42,22 @@ final class AmbientLightManager implements SensorEventListener {
   private final Context context;
   private CameraManager cameraManager;
   private Sensor lightSensor;
+  private final boolean mEnabled;
 
-  AmbientLightManager(Context context) {
+  AmbientLightManager(Context context, boolean enabled) {
     this.context = context;
+    mEnabled = enabled;
   }
 
   void start(CameraManager cameraManager) {
     this.cameraManager = cameraManager;
+    if (mEnabled) {
       SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
       lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
       if (lightSensor != null) {
           sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
       }
+    }
   }
 
   void stop() {
