@@ -117,6 +117,27 @@ public class CaptureActivityIntentsTest extends InstrumentationTestCase {
     p.exec(new int[] {}); // empty array
   }
 
+  public static void test_setDecodeHintCharacterSet() {
+    Intent intent = new Intent("DUMMY_ACTION");
+    CaptureActivityIntents.setDecodeHintCharacterSet(intent, "characterSet");
+    assertEquals("characterSet", CaptureActivityIntents.getDecodeHintCharacterSetOrNull(intent));
+  }
+
+  public static void test_getDecodeHintCharacterSetOrNull() {
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivityIntents.setDecodeHintCharacterSet(intent, "characterSet");
+      assertEquals("characterSet", CaptureActivityIntents.getDecodeHintCharacterSetOrNull(intent));
+    }
+    { // In case that character set is not specified
+      Intent intent = new Intent("DUMMY_ACTION");
+      assertNull(CaptureActivityIntents.getDecodeHintCharacterSetOrNull(intent));
+    }
+    { // In case that `intent` is `null`
+      assertNull(CaptureActivityIntents.getDecodeHintCharacterSetOrNull(null));
+    }
+  }
+
   public void test_setPromptMessage() {
     {
       Intent intent = new Intent("DUMMY_ACTION");

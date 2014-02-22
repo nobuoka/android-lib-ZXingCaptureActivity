@@ -104,6 +104,21 @@ public class CaptureActivityIntents {
   }
 
   /**
+   * @see com.google.zxing.DecodeHintType#CHARACTER_SET
+   */
+  public static void setDecodeHintCharacterSet(Intent intent, String characterSet) {
+    intent.putExtra(Intents.Scan.CHARACTER_SET, characterSet);
+  }
+
+  /**
+   * @see com.google.zxing.DecodeHintType#CHARACTER_SET
+   */
+  public static String getDecodeHintCharacterSetOrNull(Intent intent) {
+    if (intent == null) return null;
+    return intent.getStringExtra(Intents.Scan.CHARACTER_SET);
+  }
+
+  /**
    * Set prompt message onto {@code Intent}.
    * @param intent Target intent.
    * @param message Prompt message displayed on activity.

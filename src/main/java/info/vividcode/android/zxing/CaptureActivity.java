@@ -154,7 +154,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
           statusView.setText(customPromptMessage);
         }
 
-        characterSet = intent.getStringExtra(Intents.Scan.CHARACTER_SET);
+        characterSet = CaptureActivityIntents.getDecodeHintCharacterSetOrNull(intent);
 
     }
   }
