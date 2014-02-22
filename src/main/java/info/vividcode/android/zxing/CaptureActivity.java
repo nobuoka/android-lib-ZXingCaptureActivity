@@ -164,6 +164,24 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   }
 
   /**
+   * Set prompt message onto {@code Intent}.
+   * @param intent Target intent.
+   * @param message Prompt message displayed on activity.
+   */
+  public static void setPromptMessageToIntent(Intent intent, String message) {
+    intent.putExtra(Intents.Scan.PROMPT_MESSAGE, message);
+  }
+
+  /**
+   * Get prompt message from {@code Intent}.
+   * @param intent Target intent. It can be {@code null}.
+   */
+  public static String getPromptMessageFromIntentOrNull(Intent intent) {
+    if (intent == null) return null;
+    return intent.getStringExtra(Intents.Scan.PROMPT_MESSAGE);
+  }
+
+  /**
    * Set desired duration for which to pause after a successful scan to {@code Intent}.
    * @param intent It must not be {@code null}.
    * @param duration Desired duration in milliseconds.
@@ -248,7 +266,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
           }
         }
         
-        String customPromptMessage = intent.getStringExtra(Intents.Scan.PROMPT_MESSAGE);
+        String customPromptMessage = getPromptMessageFromIntentOrNull(intent);
         if (customPromptMessage != null) {
           statusView.setText(customPromptMessage);
         }

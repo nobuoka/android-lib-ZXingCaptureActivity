@@ -121,6 +121,29 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
     p.exec(new int[] {}); // empty array
   }
 
+  public void test_setPromptMessageToIntent() {
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setPromptMessageToIntent(intent, "message");
+      assertEquals("message", CaptureActivity.getPromptMessageFromIntentOrNull(intent));
+    }
+  }
+
+  public void test_getPromptMessageFromIntentOrNull() {
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setPromptMessageToIntent(intent, "message");
+      assertEquals("message", CaptureActivity.getPromptMessageFromIntentOrNull(intent));
+    }
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      assertNull(CaptureActivity.getPromptMessageFromIntentOrNull(intent));
+    }
+    {
+      assertNull(CaptureActivity.getPromptMessageFromIntentOrNull(null));
+    }
+  }
+
   public void test_setResultDisplayDurationInMsFromIntent() {
     {
       Intent intent = new Intent("DUMMY_ACTION");
