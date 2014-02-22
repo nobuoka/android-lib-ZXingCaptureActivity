@@ -1,7 +1,7 @@
 package info.vividcode.android.zxing;
 
 import android.content.Intent;
-import android.test.ActivityInstrumentationTestCase2;
+import android.test.InstrumentationTestCase;
 import android.test.MoreAsserts;
 
 import com.google.zxing.BarcodeFormat;
@@ -11,30 +11,26 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-public class CaptureActivityTest extends ActivityInstrumentationTestCase2<CaptureActivity> {
-
-  public CaptureActivityTest() {
-    super("info.vividcode.android.zxing", CaptureActivity.class);
-  }
+public class CaptureActivityIntentsTest extends InstrumentationTestCase {
 
   public static void test_setDecodeFormatsToIntent() {
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeFormatsToIntent(intent,
+      CaptureActivityIntents.setDecodeFormatsToIntent(intent,
           Arrays.asList(BarcodeFormat.CODE_39, BarcodeFormat.AZTEC, BarcodeFormat.CODABAR));
       MoreAsserts.assertContentsInAnyOrder(DecodeFormatManager.parseDecodeFormats(intent),
           BarcodeFormat.CODE_39, BarcodeFormat.AZTEC, BarcodeFormat.CODABAR);
     }
     { // One item
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeFormatsToIntent(intent,
+      CaptureActivityIntents.setDecodeFormatsToIntent(intent,
           Arrays.asList(BarcodeFormat.CODE_39));
       MoreAsserts.assertContentsInAnyOrder(DecodeFormatManager.parseDecodeFormats(intent),
           BarcodeFormat.CODE_39);
     }
     { // Empty list
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeFormatsToIntent(intent, Arrays.<BarcodeFormat>asList());
+      CaptureActivityIntents.setDecodeFormatsToIntent(intent, Arrays.<BarcodeFormat>asList());
       assertNull("In case that empty formats list is passed, value is not set",
           DecodeFormatManager.parseDecodeFormats(intent));
     }
@@ -43,7 +39,7 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
   private static void doTestSetDecodeModeToIntent(
       String modeStr, Collection<BarcodeFormat> expectedFormats) {
     Intent intent = new Intent("DUMMY_ACTION");
-    CaptureActivity.setDecodeModeToIntent(intent, modeStr);
+    CaptureActivityIntents.setDecodeModeToIntent(intent, modeStr);
     Collection<BarcodeFormat> decodeFormats = DecodeFormatManager.parseDecodeFormats(intent);
     MoreAsserts.assertContentsInAnyOrder(decodeFormats, expectedFormats.toArray());
   }
@@ -58,7 +54,7 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
     }
     { // Invalid mode string
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeModeToIntent(intent, "");
+      CaptureActivityIntents.setDecodeModeToIntent(intent, "");
       Collection<BarcodeFormat> decodeFormats = DecodeFormatManager.parseDecodeFormats(intent);
       assertNull(decodeFormats);
     }
@@ -78,27 +74,27 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
     TestProcess p = new TestProcess();
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeHintPureBarcodeEnabledToIntent(intent);
+      CaptureActivityIntents.setDecodeHintPureBarcodeEnabledToIntent(intent);
       p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.PURE_BARCODE);
     }
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeHintTryHarderEnabledToIntent(intent);
+      CaptureActivityIntents.setDecodeHintTryHarderEnabledToIntent(intent);
       p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.TRY_HARDER);
     }
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeHintAssumeCode39CheckDigitEnabledToIntent(intent);
+      CaptureActivityIntents.setDecodeHintAssumeCode39CheckDigitEnabledToIntent(intent);
       p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT);
     }
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeHintAssumeGs1EnabledToIntent(intent);
+      CaptureActivityIntents.setDecodeHintAssumeGs1EnabledToIntent(intent);
       p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.ASSUME_GS1);
     }
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setDecodeHintReturnCodabarStartEndEnabledToIntent(intent);
+      CaptureActivityIntents.setDecodeHintReturnCodabarStartEndEnabledToIntent(intent);
       p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.RETURN_CODABAR_START_END);
     }
   }
@@ -107,7 +103,7 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
     class TestProcess {
       void exec(int[] lengths) {
         Intent intent = new Intent("DUMMY_ACTION");
-        CaptureActivity.setDecodeHintAllowedLengthsToIntent(intent, lengths);
+        CaptureActivityIntents.setDecodeHintAllowedLengthsToIntent(intent, lengths);
         Map<DecodeHintType, Object> hintMap = DecodeHintManager.parseDecodeHints(intent);
         assertEquals(1, hintMap.size());
         assertTrue(hintMap.containsKey(DecodeHintType.ALLOWED_LENGTHS));
@@ -124,50 +120,50 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
   public void test_setPromptMessageToIntent() {
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setPromptMessageToIntent(intent, "message");
-      assertEquals("message", CaptureActivity.getPromptMessageFromIntentOrNull(intent));
+      CaptureActivityIntents.setPromptMessageToIntent(intent, "message");
+      assertEquals("message", CaptureActivityIntents.getPromptMessageFromIntentOrNull(intent));
     }
   }
 
   public void test_getPromptMessageFromIntentOrNull() {
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setPromptMessageToIntent(intent, "message");
-      assertEquals("message", CaptureActivity.getPromptMessageFromIntentOrNull(intent));
+      CaptureActivityIntents.setPromptMessageToIntent(intent, "message");
+      assertEquals("message", CaptureActivityIntents.getPromptMessageFromIntentOrNull(intent));
     }
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      assertNull(CaptureActivity.getPromptMessageFromIntentOrNull(intent));
+      assertNull(CaptureActivityIntents.getPromptMessageFromIntentOrNull(intent));
     }
     {
-      assertNull(CaptureActivity.getPromptMessageFromIntentOrNull(null));
+      assertNull(CaptureActivityIntents.getPromptMessageFromIntentOrNull(null));
     }
   }
 
   public void test_setSizeOfScanningRectangleInPxToIntent() {
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setSizeOfScanningRectangleInPxToIntent(intent, 5, 10);
-      assertEquals(5, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
-      assertEquals(10, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
+      CaptureActivityIntents.setSizeOfScanningRectangleInPxToIntent(intent, 5, 10);
+      assertEquals(5, CaptureActivityIntents.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(10, CaptureActivityIntents.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
     }
   }
 
   public void test_getWidthAndHeightOfScanningRectangleInPxToIntent() {
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      CaptureActivity.setSizeOfScanningRectangleInPxToIntent(intent, 5, 10);
-      assertEquals(5, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
-      assertEquals(10, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
+      CaptureActivityIntents.setSizeOfScanningRectangleInPxToIntent(intent, 5, 10);
+      assertEquals(5, CaptureActivityIntents.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(10, CaptureActivityIntents.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
     }
     { // In case that size is not specified, it returns zero.
       Intent intent = new Intent("DUMMY_ACTION");
-      assertEquals(0, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
-      assertEquals(0, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(0, CaptureActivityIntents.getWidthOfScanningRectangleInPxFromIntentOrZero(intent));
+      assertEquals(0, CaptureActivityIntents.getHeightOfScanningRectangleInPxFromIntentOrZero(intent));
     }
     { // In case that argument is `null`, it returns zero.
-      assertEquals(0, CaptureActivity.getWidthOfScanningRectangleInPxFromIntentOrZero(null));
-      assertEquals(0, CaptureActivity.getHeightOfScanningRectangleInPxFromIntentOrZero(null));
+      assertEquals(0, CaptureActivityIntents.getWidthOfScanningRectangleInPxFromIntentOrZero(null));
+      assertEquals(0, CaptureActivityIntents.getHeightOfScanningRectangleInPxFromIntentOrZero(null));
     }
   }
 
@@ -176,7 +172,7 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
       Intent intent = new Intent("DUMMY_ACTION");
       long setValue = 300L;
       try {
-        CaptureActivity.setResultDisplayDurationInMsToIntent(intent, setValue);
+        CaptureActivityIntents.setResultDisplayDurationInMsToIntent(intent, setValue);
         assertTrue("Error not occurred", true);
       } catch (Throwable err) {
         assertTrue("Error occurred: " + err.getMessage(), false);
@@ -189,17 +185,17 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
     {
       Intent intent = new Intent("DUMMY_ACTION");
       long setValue = 300L;
-      CaptureActivity.setResultDisplayDurationInMsToIntent(intent, setValue);
-      long val = CaptureActivity.getResultDisplayDurationInMsFromIntentOrDefaultValue(intent);
+      CaptureActivityIntents.setResultDisplayDurationInMsToIntent(intent, setValue);
+      long val = CaptureActivityIntents.getResultDisplayDurationInMsFromIntentOrDefaultValue(intent);
       assertEquals("Returns set value", setValue, val);
     }
     {
-      long val = CaptureActivity.getResultDisplayDurationInMsFromIntentOrDefaultValue(null);
+      long val = CaptureActivityIntents.getResultDisplayDurationInMsFromIntentOrDefaultValue(null);
       assertEquals("Returns default value if argument is `null`", defaultValue, val);
     }
     {
       Intent intent = new Intent("DUMMY_ACTION");
-      long val = CaptureActivity.getResultDisplayDurationInMsFromIntentOrDefaultValue(intent);
+      long val = CaptureActivityIntents.getResultDisplayDurationInMsFromIntentOrDefaultValue(intent);
       assertEquals("Returns default value if `intent` doesn't have display duration",
           defaultValue, val);
     }
