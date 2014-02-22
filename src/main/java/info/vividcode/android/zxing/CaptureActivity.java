@@ -115,6 +115,55 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   }
 
   /**
+   * Set decode hint to intent to enable {@link DecodeHintType#PURE_BARCODE} feature.
+   * @param intent Target intent.
+   */
+  public static void setDecodeHintPureBarcodeEnabledToIntent(Intent intent) {
+    intent.putExtra(DecodeHintType.PURE_BARCODE.name(), true);
+  }
+
+  /**
+   * Set decode hint to intent to enable {@link DecodeHintType#TRY_HARDER} feature.
+   * @param intent Target intent.
+   */
+  public static void setDecodeHintTryHarderEnabledToIntent(Intent intent) {
+    intent.putExtra(DecodeHintType.TRY_HARDER.name(), true);
+  }
+
+  /**
+   * Set allowed lengths of encoded data.
+   * @param intent Target intent.
+   * @param lengths allowed lengths.
+   */
+  public static void setDecodeHintAllowedLengthsToIntent(Intent intent, int[] lengths) {
+    intent.putExtra(DecodeHintType.ALLOWED_LENGTHS.name(), lengths);
+  }
+
+  /**
+   * Set decode hint to intent to enable {@link DecodeHintType#ASSUME_CODE_39_CHECK_DIGIT} feature.
+   * @param intent Target intent.
+   */
+  public static void setDecodeHintAssumeCode39CheckDigitEnabledToIntent(Intent intent) {
+    intent.putExtra(DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT.name(), true);
+  }
+
+  /**
+   * Set decode hint to intent to enable {@link DecodeHintType#ASSUME_GS1} feature.
+   * @param intent Target intent.
+   */
+  public static void setDecodeHintAssumeGs1EnabledToIntent(Intent intent) {
+    intent.putExtra(DecodeHintType.ASSUME_GS1.name(), true);
+  }
+
+  /**
+   * Set decode hint to intent to enable {@link DecodeHintType#RETURN_CODABAR_START_END} feature.
+   * @param intent Target intent.
+   */
+  public static void setDecodeHintReturnCodabarStartEndEnabledToIntent(Intent intent) {
+    intent.putExtra(DecodeHintType.RETURN_CODABAR_START_END.name(), true);
+  }
+
+  /**
    * Set desired duration for which to pause after a successful scan to {@code Intent}.
    * @param intent It must not be {@code null}.
    * @param duration Desired duration in milliseconds.

@@ -5,9 +5,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.MoreAsserts;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.DecodeHintType;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 
 public class CaptureActivityTest extends ActivityInstrumentationTestCase2<CaptureActivity> {
 
@@ -60,6 +62,63 @@ public class CaptureActivityTest extends ActivityInstrumentationTestCase2<Captur
       Collection<BarcodeFormat> decodeFormats = DecodeFormatManager.parseDecodeFormats(intent);
       assertNull(decodeFormats);
     }
+  }
+
+  public static void test_setDecodeHintToIntentMethods() {
+    class TestProcess {
+      void assertThatSpecifiedHintTypeEnabled(Intent intent, DecodeHintType type) {
+        Map<DecodeHintType, Object> hintMap = DecodeHintManager.parseDecodeHints(intent);
+        assertEquals(1, hintMap.size());
+        assertTrue(hintMap.containsKey(type));
+        Object value = hintMap.get(type);
+        MoreAsserts.assertAssignableFrom(Boolean.class, value.getClass());
+        assertEquals(Boolean.TRUE, value);
+      }
+    }
+    TestProcess p = new TestProcess();
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setDecodeHintPureBarcodeEnabledToIntent(intent);
+      p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.PURE_BARCODE);
+    }
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setDecodeHintTryHarderEnabledToIntent(intent);
+      p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.TRY_HARDER);
+    }
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setDecodeHintAssumeCode39CheckDigitEnabledToIntent(intent);
+      p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.ASSUME_CODE_39_CHECK_DIGIT);
+    }
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setDecodeHintAssumeGs1EnabledToIntent(intent);
+      p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.ASSUME_GS1);
+    }
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivity.setDecodeHintReturnCodabarStartEndEnabledToIntent(intent);
+      p.assertThatSpecifiedHintTypeEnabled(intent, DecodeHintType.RETURN_CODABAR_START_END);
+    }
+  }
+
+  public static void test_setDecodeHintAllowedLengthsToIntent() {
+    class TestProcess {
+      void exec(int[] lengths) {
+        Intent intent = new Intent("DUMMY_ACTION");
+        CaptureActivity.setDecodeHintAllowedLengthsToIntent(intent, lengths);
+        Map<DecodeHintType, Object> hintMap = DecodeHintManager.parseDecodeHints(intent);
+        assertEquals(1, hintMap.size());
+        assertTrue(hintMap.containsKey(DecodeHintType.ALLOWED_LENGTHS));
+        Object value = hintMap.get(DecodeHintType.ALLOWED_LENGTHS);
+        MoreAsserts.assertAssignableFrom(int[].class, value.getClass());
+        MoreAsserts.assertEquals(lengths, (int[]) value);
+      }
+    }
+    TestProcess p = new TestProcess();
+    p.exec(new int[] { 1, 2, 3 });
+    p.exec(new int[] {}); // empty array
   }
 
   public void test_setResultDisplayDurationInMsFromIntent() {
