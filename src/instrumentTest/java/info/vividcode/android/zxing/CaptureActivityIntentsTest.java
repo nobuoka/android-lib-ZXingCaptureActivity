@@ -138,6 +138,27 @@ public class CaptureActivityIntentsTest extends InstrumentationTestCase {
     }
   }
 
+  public void test_setFrontLightAutoModeEnabled() {
+    Intent intent = new Intent("DUMMY_ACTION");
+    CaptureActivityIntents.setFrontLightAutoModeEnabled(intent);
+    assertEquals(true, CaptureActivityIntents.getFrontLightAutoMode(intent));
+  }
+
+  public void test_getFrontLightAutoMode() {
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      CaptureActivityIntents.setFrontLightAutoModeEnabled(intent);
+      assertEquals(true, CaptureActivityIntents.getFrontLightAutoMode(intent));
+    }
+    {
+      Intent intent = new Intent("DUMMY_ACTION");
+      assertEquals(false, CaptureActivityIntents.getFrontLightAutoMode(intent));
+    }
+    {
+      assertEquals(false, CaptureActivityIntents.getFrontLightAutoMode(null));
+    }
+  }
+
   public void test_setPromptMessage() {
     {
       Intent intent = new Intent("DUMMY_ACTION");

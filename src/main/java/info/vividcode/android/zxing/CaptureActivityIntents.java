@@ -26,6 +26,8 @@ import java.util.Collection;
 public class CaptureActivityIntents {
   private static final long DEFAULT_INTENT_RESULT_DURATION_MS = 1500L;
 
+  private static final String FRONT_LIGHT_AUTO_MODE = "FRONT_LIGHT_AUTO_MODE";
+
   /**
    * Set barcode formats to scan for onto {@code Intent}.
    * This setting precedes to setting by {@code #setDecodeFormats} method.
@@ -116,6 +118,22 @@ public class CaptureActivityIntents {
   public static String getDecodeHintCharacterSetOrNull(Intent intent) {
     if (intent == null) return null;
     return intent.getStringExtra(Intents.Scan.CHARACTER_SET);
+  }
+
+  /**
+   * Set front light auto mode true.
+   * @param intent Target intent.
+   */
+  public static void setFrontLightAutoModeEnabled(Intent intent) {
+    intent.putExtra(FRONT_LIGHT_AUTO_MODE, true);
+  }
+
+  /**
+   * Get front light auto mode.
+   * @param intent Target intent.
+   */
+  public static boolean getFrontLightAutoMode(Intent intent) {
+    return (intent != null && intent.getBooleanExtra(FRONT_LIGHT_AUTO_MODE, false));
   }
 
   /**

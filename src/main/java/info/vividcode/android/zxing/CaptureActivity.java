@@ -93,7 +93,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     setContentView(R.layout.capture);
 
     hasSurface = false;
-    ambientLightManager = new AmbientLightManager(this);
+    ambientLightManager = new AmbientLightManager(this,
+        CaptureActivityIntents.getFrontLightAutoMode(getIntent()));
   }
 
   @Override
