@@ -30,7 +30,7 @@ android {
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "${ZXING_CORE_VERSION}-1.2-SNAPSHOT"
+version = "${ZXING_CORE_VERSION}-1.2"
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 group = "info.vividcode.android.zxing"
 
