@@ -68,6 +68,12 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data){
 }
 ```
 
+## Try ZXing!
+
+You can try this QR code!
+
+![](https://raw.githubusercontent.com/kaiinui/android-lib-ZXingCaptureActivity/dev/qr_sample.png)
+
 ## License
 
 This project is released under the Apache License, Version 2.0.
